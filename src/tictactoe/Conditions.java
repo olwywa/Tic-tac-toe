@@ -1,57 +1,6 @@
-package com.company;
-import java.util.Scanner;
+package tictactoe;
 
-public class Main {
-
-    public static void main(String[] args) {
-        System.out.println("Enter cells: ");
-        Scanner scan = new Scanner(System.in);
-
-        String str = scan.next();
-        char[][] choices = new char[3][3];
-        int licznikStr = 0;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                choices[i][j] = str.charAt(licznikStr);
-                licznikStr++;
-            }
-        }
-
-        utworzPlansze(choices);
-
-        boolean flag_winX = sprawdzXwin(choices);
-        boolean flag_winO = sprawdzOwin(choices);
-        boolean flag_remis = remis(choices, flag_winX, flag_winO);
-        boolean flag_not = notFinished(choices, flag_winX, flag_winO);
-        boolean flag_impo = impossible(choices, flag_winX, flag_winO);
-
-        if (flag_winX == true && flag_winO != true && flag_remis != true && flag_not != true && flag_impo != true) {
-            System.out.println("X wins");
-        } else if (flag_winO == true && flag_winX != true && flag_remis != true && flag_not != true && flag_impo != true) {
-            System.out.println("O wins");
-        } else if (flag_remis == true && flag_winO != true && flag_winX != true && flag_not != true && flag_impo != true) {
-            System.out.println("Draw");
-        } else if (flag_not == true && flag_winX != true && flag_winO != true && flag_remis != true && flag_impo != true) {
-            System.out.println("Game not finished");
-        } else if ((flag_impo == true && flag_not != true && flag_remis != true) || flag_winX == true && flag_winO == true) {
-            System.out.println("Impossible");
-        }
-
-    }
-    public static void utworzPlansze(char[][] choices) {
-        //utworzenie planszy i jej elementów
-        char[][] plansza = {
-                {'-', '-', '-', '-', '-', '-', '-', '-', '-'},
-                {'|', ' ', choices[0][0], ' ', choices[0][1], ' ', choices[0][2], ' ', '|'},
-                {'|', ' ', choices[1][0], ' ', choices[1][1], ' ', choices[1][2], ' ', '|'},
-                {'|', ' ', choices[2][0], ' ', choices[2][1], ' ', choices[2][2], ' ', '|'},
-                {'-', '-', '-', '-', '-', '-', '-', '-', '-'}
-        };
-        for (int i = 0; i < plansza.length; ++i) {
-            System.out.println(plansza[i]);
-        }
-    }
+public class Conditions {
 
     public static boolean sprawdzXwin(char[][] choices) {
         boolean Xwins = false;
@@ -197,7 +146,7 @@ public class Main {
 
         for (int i = 0; i < choices.length; i++) {
             for (int j = 0; j < choices.length; j++) {
-                if (choices[i][j] != '_') {
+                if (choices[i][j] != ' ') {
                     if (choices[i][j] == 'X') {
                         countX++;
                     } else {
@@ -278,4 +227,28 @@ public class Main {
         }
     }
 
+    public static String statements (boolean flag_winX, boolean flag_winO, boolean flag_remis, boolean flag_not, boolean flag_impo) {
+
+        String winner = "";
+        String congrats = "Congratulations!";
+        String again = "Try again";
+
+        if (flag_winX == true && flag_winO != true && flag_remis != true && flag_not != true && flag_impo != true) {
+            winner = "X wins";
+            System.out.println(winner + "\n" + congrats);
+        } else if (flag_winO == true && flag_winX != true && flag_remis != true && flag_not != true && flag_impo != true) {
+            winner = "O wins";
+            System.out.println(winner + "\n" + congrats);
+        } else if (flag_remis == true && flag_winO != true && flag_winX != true && flag_not != true && flag_impo != true) {
+            winner = "Draw";
+            System.out.println(winner + "\n" + again);
+        } else if (flag_not == true && flag_winX != true && flag_winO != true && flag_remis != true && flag_impo != true) {
+            winner = "Game not finished.";
+            System.out.println(winner + "\n" + again);
+        } else if ((flag_impo == true && flag_not != true && flag_remis != true) || flag_winX == true && flag_winO == true) {
+            winner = "Impossible";
+            System.out.println(winner + "\n" + again);
+        }
+        return winner;
+    }
 }
